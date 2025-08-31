@@ -2,22 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package lab1;
+package ziptestdemo;
 
-/**
- *
- * @author Vedika
- */
-public class ZipTestDemo {
-    
 /**
  *
  * @author Nagat Drawel
  * Lab_01: Review OOP
  * 25/08/2025
  */
-
-
+public class ZipTestDemo {
+    
     public static void main(String[] args) {
         System.out.println("Required Output for Zipcode Testing");
 
