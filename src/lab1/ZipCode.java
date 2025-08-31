@@ -9,7 +9,7 @@ package lab1;
  * @author Vedika
  */
 public class ZipCode {
-    private int zip; //int 
+    public int Zip; //int 
     private boolean valid; 
     private String errorMessage; 
             
@@ -25,7 +25,7 @@ public class ZipCode {
             valid = false; 
         }
         else {
-            this.zip = zip; 
+            this.Zip = zip; 
             valid = true; 
         }
     }
@@ -42,7 +42,7 @@ public class ZipCode {
         if (decoded == -1) {
             valid = false; 
         } else {
-            this.zip = decoded; 
+            this.Zip = decoded; 
             valid = true; 
         }
         
@@ -55,7 +55,7 @@ public class ZipCode {
         }
         
         //zero padding 
-        String zipString = String.format ("%05d",zip);
+        String zipString = String.format ("%05d",Zip);
         
         String result = "1";
          
