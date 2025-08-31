@@ -92,8 +92,8 @@ public class ZipCode {
 
             //check if only only 0 and 1's
             for (int i = 0 ; i < ZipCode.length(); i++) {
-                if (ZipCode.charAt(i) != '0' || ZipCode.charAt(i) != '1') {
-                    errorMessage = " bar code character" +  ZipCode.charAt(i)  + " must be '0' or '1'";
+                if (ZipCode.charAt(i) != '0' && ZipCode.charAt(i) != '1') {
+                    errorMessage = " bar code character " +  ZipCode.charAt(i) + " + must be '0' or '1'";
                     System.out.println(errorMessage);
                     return -1;
                 }
@@ -138,15 +138,16 @@ public class ZipCode {
         //encode, integer to string 
         private String encodeDigit(int digit) {
             switch (digit) {
-                case 1 : return "11000";
-                case 2 : return "00011";
-                case 3 : return "00101";
-                case 4 : return "01010";
+                case 0 : return "11000";
+                case 1 : return "00011";
+                case 2 : return "00101";
+                case 3 : return "00110";
+                case 4 : return "01001";
                 case 5 : return "01010";
                 case 6 : return "01100";
-                case 7 : return "10010";
-                case 8 : return "10010";
-                case 9 : return "10100";
+                case 7 : return "10001";
+                case 9 : return "10010";
+                case 10 : return "10100";
                 default : return "";         
             }
         }
