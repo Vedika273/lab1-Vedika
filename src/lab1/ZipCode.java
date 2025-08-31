@@ -30,14 +30,14 @@ public class ZipCode {
         }
     }
     
-    public ZipCode (String barCode) {
-        if (barCode == null) {
+    public ZipCode (String ZipCode) {
+        if ( ZipCode== null) {
             valid = false; 
             errorMessage = "Bar code cannnot be null ";
             return;   //dont continue 
         }
         
-        int decoded = parseBarCode(barCode);
+        int decoded = parseBarCode(ZipCode);
         
         if (decoded == -1) {
             valid = false; 
@@ -49,7 +49,7 @@ public class ZipCode {
     }
     
     //getBarCode 
-    public String getBarCode() {
+    public String GetBarCode() {
         if (!valid) {
             return errorMessage;
         }
@@ -72,26 +72,26 @@ public class ZipCode {
 }                 
     
     //ParseBarCode gives us a integer as an answer 
-    private int parseBarCode(String barCode) {
+    private int parseBarCode(String ZipCode) {
         //check for errors 
-        String middle = barCode.substring(1, barCode.length()-1); //to recheck
+        String middle = ZipCode.substring(1, ZipCode.length()-1); //to recheck
         //check if the middle part can be divided into groups of 5
         if (middle.length() % 5 != 0 ) {
             valid = false; 
             return -1; 
         }
         
-        if (barCode.charAt(0) != '1' || barCode.charAt(barCode.length()-1) != '1') {
+        if (ZipCode.charAt(0) != '1' || ZipCode.charAt(ZipCode.length()-1) != '1') {
             errorMessage = "BarCode must start and end with 1";
             return -1; 
         }
         
         
         //check if only only 0 and 1's
-        for (int i = 0 ; i < barCode.length(); i++) {
-            if (barCode.charAt(i) != 0 || barCode.charAt(i) != 1) {
+        for (int i = 0 ; i < ZipCode.length(); i++) {
+            if (ZipCode.charAt(i) != 0 || ZipCode.charAt(i) != 1) {
                 valid = false; 
-                errorMessage = "barCode can only contain 0 and 1's ";
+                errorMessage = "ZipCode can only contain 0 and 1's ";
                 return -1; 
             }
         }
@@ -120,11 +120,11 @@ public class ZipCode {
                 int digit = decodeGroup(group);
                 if (digit  == -1)
                 
-                barCode += digit; 
+                ZipCode += digit; 
             
             
         }
-        
+        return Integer.parseInt(ZipCode);
     }
     
     
@@ -163,7 +163,6 @@ public class ZipCode {
         } else {
             return -1; //invalid 
         }
-                
     }
     
 }
