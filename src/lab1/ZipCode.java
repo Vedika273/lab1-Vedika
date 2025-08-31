@@ -19,7 +19,7 @@ public class ZipCode {
            System.out.println(errorMessage);
            valid = false; 
        }
-        if (zip < 99999 ) {
+        if (zip > 99999 ) {
             errorMessage = "Zip cannot be more than 5 digits ";
             System.out.println(errorMessage);
             valid = false; 
@@ -36,6 +36,16 @@ public class ZipCode {
             errorMessage = "Bar code cannnot be null ";
             return;   //dont continue 
         }
+        
+        int decoded = parseBarCode(barCode);
+        
+        if (decoded == -1) {
+            valid = false; 
+        } else {
+            this.zip = decoded; 
+            valid = true; 
+        }
+        
     }
     
     //getBarCode 
@@ -53,7 +63,7 @@ public class ZipCode {
         //encode each digit into a string of 0 and 1 
         for (int i = 0; i < zipString.length(); i++) {
              int digit = zipString.charAt(i) -'0';
-             result += encode(digit);
+             result += encodeDigit(digit);
         }
         
         result += '1';
@@ -62,7 +72,7 @@ public class ZipCode {
 }                 
     
     //ParseBarCode gives us a integer as an answer 
-    private int ParseBarCode(String barCode) {
+    private int parseBarCode(String barCode) {
         //check for errors 
         String middle = barCode.substring(1, barCode.length()-1); //to recheck
         //check if the middle part can be divided into groups of 5
@@ -71,7 +81,8 @@ public class ZipCode {
             return -1; 
         }
         
-        if (barCode.charAt(0) != '1' || barCode.charAt() != "1") {
+        if (barCode.charAt(0) != '1' || barCode.charAt(barCode.length()-1) != '1') {
+            errorMessage = "BarCode must start and end with 1";
             return -1; 
         }
         
@@ -88,7 +99,7 @@ public class ZipCode {
             //check if there are exactly two 1's 
             //tranverse the string middle 
             for ( int i = 0 ; i < 5; i++) {
-                String group = middle.substring(i*5, i*5 +5);
+                String group = middle.substring(i*5, i*5+5);
                 
                 
                 //check the numbers of ones 
@@ -119,7 +130,7 @@ public class ZipCode {
     
     //helper method 
     //encode, integer to string 
-    private String encode (int digit) {
+    private String encodeDigit(int digit) {
         switch (digit) {
             case 1 : return "11000";
             case 2 : return "00011";
@@ -154,4 +165,5 @@ public class ZipCode {
         }
                 
     }
+    
 }
