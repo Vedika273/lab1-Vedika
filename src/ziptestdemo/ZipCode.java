@@ -92,14 +92,19 @@ public class ZipCode {
                 return -1; 
             } 
 
-            //check if only only 0 and 1's
-            for (int i = 0 ; i < ZipCode.length(); i++) {
-                if (ZipCode.charAt(i) != '0' && ZipCode.charAt(i) != '1') {
-                    errorMessage = " bar code character " +  ZipCode.charAt(i) + " + must be '0' or '1'";
-                    System.out.println(errorMessage);
-                    return -1;
-                }
-            }
+           //check if only 0 and 1's are present
+           boolean foundInvalid = false; 
+           for (int i = 0; i < ZipCode.length(); i++) {
+               char c = ZipCode.charAt(i);
+               if (c != '0' && c != '1') {
+                   System.out.println("Error : digit " + c + " must be '0' or '1");
+                   foundInvalid = true;
+               }
+           }
+           if (foundInvalid ) {
+               errorMessage = "Error : barCode contains invalid digits(s)";
+               return -1; 
+           }
 
             String decoded = "";
 
