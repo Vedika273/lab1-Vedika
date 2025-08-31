@@ -14,8 +14,8 @@ package ziptestdemo;
 public class ZipCode {
     
         public int Zip; 
-        private boolean valid; 
-        private String errorMessage; 
+        private boolean valid = true; 
+        private String errorMessage = ""; 
 
         public ZipCode(int zip) {
             if (zip < 0 ) {
@@ -39,13 +39,15 @@ public class ZipCode {
                 errorMessage = " Error : bar code cannot be null";
                 System.out.println(errorMessage);
                 valid = false;
+                Zip = -1;
                 return;   //don't continue if false 
             }
-
+            
             int decoded = parseBarCode(ZipCode);
 
             if (decoded == -1) {
                 valid = false; 
+                Zip = -1; 
             } else {
                 this.Zip = decoded; 
                 valid = true; 
@@ -109,7 +111,7 @@ public class ZipCode {
                 //check the numbers of ones 
                 int ones = 0; 
                 for (int j = 0 ; j < 5; j++) {
-                    if (group.charAt(i) == '1') {
+                    if (group.charAt(j) == '1') {
                         ones++;
                     }
                 }
@@ -146,8 +148,8 @@ public class ZipCode {
                 case 5 : return "01010";
                 case 6 : return "01100";
                 case 7 : return "10001";
-                case 9 : return "10010";
-                case 10 : return "10100";
+                case 8 : return "10010";
+                case 9 : return "10100";
                 default : return "";         
             }
         }
