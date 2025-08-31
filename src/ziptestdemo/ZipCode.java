@@ -6,7 +6,7 @@ package ziptestdemo;
 
 /**
  * 
- * @author Vedika Jain 
+ * @author Vedika  
  * Lab_01: Review OOP
  * 31/08/2025
  */
@@ -19,16 +19,16 @@ public class ZipCode {
 
         public ZipCode(int zip) {
             if (zip < 0 ) {
-               errorMessage = "ZIP cannot be negative";
+               errorMessage = zip + "  zip cannot be negative";
                System.out.println(errorMessage);
                valid = false; 
             }
-            if (zip > 99999 ) {
-                errorMessage = "Zip cannot be more than 5 digits ";
+            else if (zip > 99999 ) {
+                errorMessage = zip + " zip is more than 5 digits";
                 System.out.println(errorMessage);
                 valid = false; 
             }
-            else {
+            else{
                 this.Zip = zip; 
                 valid = true; 
             }
@@ -36,8 +36,9 @@ public class ZipCode {
         
         public ZipCode (String ZipCode) {
             if (ZipCode == null) {
-                valid = false; 
-                errorMessage = "Bar code cannnot be null ";
+                errorMessage = " Error : bar code cannot be null";
+                System.out.println(errorMessage);
+                valid = false;
                 return;   //don't continue if false 
             }
 
@@ -57,73 +58,81 @@ public class ZipCode {
             }
 
             //zero padding 
-            String zipString = String.format ("%05d",Zip);
+            String zipString = String.format("%05d",Zip);
 
             String result = "1";
 
             //encode each digit into a string of 0 and 1 
             for (int i = 0; i < zipString.length(); i++) {
-                 int digit = zipString.charAt(i) -'0';
+                 int digit = zipString.charAt(i) - '0';
                  result += encodeDigit(digit);
             }
 
-            result += '1';
-
+            result += "1";
             return result; 
         }                 
     
         //ParseBarCode gives us a integer as an answer 
         private int parseBarCode(String ZipCode) {
             //check for errors 
-            String middle = ZipCode.substring(1, ZipCode.length()-1); //to recheck
+            String middle = ZipCode.substring(1, ZipCode.length() - 1); //to recheck
             //check if the middle part can be divided into groups of 5
             if (middle.length() % 5 != 0 ) {
+                errorMessage = " Error : bar code must be in multiples of 5 binary digits";
+                System.out.println(errorMessage);
                 valid = false; 
                 return -1; 
             }
 
-            if (ZipCode.charAt(0) != '1' || ZipCode.charAt(ZipCode.length()-1) != '1') {
-                errorMessage = "BarCode must start and end with 1";
+            if (ZipCode.charAt(0) != '1' || ZipCode.charAt(ZipCode.length() - 1) != '1') {
+                errorMessage = " Error : barCode is missing a 1 at the start or the end";
+                System.out.println(errorMessage);
                 return -1; 
-            }
+            } 
 
             //check if only only 0 and 1's
             for (int i = 0 ; i < ZipCode.length(); i++) {
-                if (ZipCode.charAt(i) != 0 || ZipCode.charAt(i) != 1) {
-                    valid = false; 
-                    errorMessage = "ZipCode can only contain 0 and 1's ";
-                    return -1; 
+                if (ZipCode.charAt(i) != '0' || ZipCode.charAt(i) != '1') {
+                    errorMessage = " bar code character" +  ZipCode.charAt(i)  + " must be '0' or '1'";
+                    System.out.println(errorMessage);
+                    return -1;
                 }
             }
 
+            String decoded = "";
+
             //check if there are exactly two 1's 
             //tranverse the string's middle part
-            for ( int i = 0 ; i < 5; i++) {
+            for ( int i = 0 ; i < middle.length() / 5; i++) {
                 String group = middle.substring(i * 5, i * 5 + 5);
 
                 //check the numbers of ones 
                 int ones = 0; 
-
                 for (int j = 0 ; j < 5; j++) {
                     if (group.charAt(i) == '1') {
                         ones++;
                     }
+                }
                     //error 
                     if(ones != 2) {
-                        errorMessage = "there must be exacly two 1's";
+                        errorMessage = group + "has invalid sequence in the bar code";
                         System.out.println("errorMessage");
                         return -1; 
                     }
-                }
+                
 
                 int digit = decodeGroup(group);
-                if (digit  == -1)
+                if (digit  == -1) {
+                    errorMessage = group + "has invalid sequence in the barcode";
+                    System.out.println(errorMessage);
+                    return -1; //stop decoding if invalid 
+                }
 
-                ZipCode += digit; 
+                decoded += digit; 
         }
-            
-        return Integer.parseInt(ZipCode);
-    }
+     
+        return Integer.parseInt(decoded);
+}
    
         //helper method 
         //encode, integer to string 
@@ -152,14 +161,12 @@ public class ZipCode {
             if (group.charAt(3) == '1') sum += 1; 
             if (group.charAt(4) == '1') sum += 0; 
 
-
             if (sum == 11) {
                 return 0; 
-            } else if (sum > 0 && sum <= 9) {
+            } else if (sum >=0 && sum <= 9) {
                 return sum; 
             } else {
                 return -1; //invalid 
             }
         }
-
     }
