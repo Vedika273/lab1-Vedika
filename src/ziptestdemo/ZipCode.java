@@ -1,13 +1,13 @@
 
-//https://github.com/Vedika273/lab1-Vedika
+//https://github.com/Vedika273/lab1-Vedika  
 
 
 package ziptestdemo;
 
 /**
- * 
+ *
  * @author Vedika  
- * Lab_01: Review OOP
+ * Lab_01A
  * 31/08/2025
  */
 
@@ -39,7 +39,6 @@ public class ZipCode {
                 errorMessage = " Error : bar code cannot be null";
                 System.out.println(errorMessage);
                 valid = false;
-                Zip = -1;
                 return;   //don't continue if false 
             }
             
@@ -47,7 +46,6 @@ public class ZipCode {
 
             if (decoded == -1) {
                 valid = false; 
-                Zip = -1; 
             } else {
                 this.Zip = decoded; 
                 valid = true; 
@@ -76,8 +74,10 @@ public class ZipCode {
     
         //ParseBarCode gives us a integer as an answer 
         private int parseBarCode(String ZipCode) {
+            
             //check for errors 
-            String middle = ZipCode.substring(1, ZipCode.length() - 1); //to recheck
+            String middle = ZipCode.substring(1, ZipCode.length() - 1); 
+            
             //check if the middle part can be divided into groups of 5
             if (middle.length() % 5 != 0 ) {
                 errorMessage = " Error : bar code must be in multiples of 5 binary digits";
@@ -92,25 +92,27 @@ public class ZipCode {
                 return -1; 
             } 
 
-           //check if only 0 and 1's are present
-           boolean foundInvalid = false; 
-           for (int i = 0; i < ZipCode.length(); i++) {
-               char c = ZipCode.charAt(i);
-               if (c != '0' && c != '1') {
-                   System.out.println("Error : digit " + c + " must be '0' or '1");
-                   foundInvalid = true;
-               }
-           }
-           if (foundInvalid ) {
-               errorMessage = "Error : barCode contains invalid digits(s)";
-               return -1; 
-           }
+            //check if only 0 and 1's are present
+            boolean foundInvalid = false; 
+
+            for (int i = 0; i < ZipCode.length(); i++) {
+                char c = ZipCode.charAt(i);
+                if (c != '0' && c != '1') {
+                    System.out.println("Error : digit " + c + " must be '0' or '1");
+                    foundInvalid = true;
+                }
+            }
+
+             if (foundInvalid) {
+                errorMessage = "Error : barCode contains invalid digits(s)";
+                return -1; 
+            }
 
             String decoded = "";
 
             //check if there are exactly two 1's 
             //tranverse the string's middle part
-            for ( int i = 0 ; i < middle.length() / 5; i++) {
+            for (int i = 0 ; i < middle.length() / 5; i++) {
                 String group = middle.substring(i * 5, i * 5 + 5);
 
                 //check the numbers of ones 
@@ -120,29 +122,28 @@ public class ZipCode {
                         ones++;
                     }
                 }
-                    //error 
-                    if(ones != 2) {
-                        errorMessage = group + "has invalid sequence in the bar code";
-                        System.out.println("errorMessage");
-                        return -1; 
-                    }
                 
-
+                //checks if it doesn't meet the requirement
+                if(ones != 2) {
+                    errorMessage = group + " has invalid sequence in the bar code";
+                    System.out.println(errorMessage);
+                    return -1; 
+                }
+               
                 int digit = decodeGroup(group);
+                
                 if (digit  == -1) {
-                    errorMessage = group + "has invalid sequence in the barcode";
+                    errorMessage = group + " has invalid sequence in the barcode";
                     System.out.println(errorMessage);
                     return -1; //stop decoding if invalid 
                 }
-
                 decoded += digit; 
         }
      
         return Integer.parseInt(decoded);
-}
+    }
    
-        //helper method 
-        //encode, integer to string 
+        // helper method to encode, integer to string 
         private String encodeDigit(int digit) {
             switch (digit) {
                 case 0 : return "11000";
@@ -159,8 +160,7 @@ public class ZipCode {
             }
         }
 
-        //helper method 
-        //decode // a group of bit code back to integer 
+        //helper method to decode a group of bit code back to integer 
         public int decodeGroup (String group) {
             int sum = 0; 
             if (group.charAt(0) == '1') sum += 7; 
@@ -171,7 +171,7 @@ public class ZipCode {
 
             if (sum == 11) {
                 return 0; 
-            } else if (sum >=0 && sum <= 9) {
+            } else if (sum >= 0 && sum <= 9) {
                 return sum; 
             } else {
                 return -1; //invalid 
